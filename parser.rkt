@@ -9,6 +9,7 @@
 ; explaining which line the error is on.
 (define (parse path) 
     (set! program (file->string path))
+    (set! program-pos 0)
     (from-failure "Accept" (parse-program))
 )
 
