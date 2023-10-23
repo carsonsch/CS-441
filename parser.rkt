@@ -10,7 +10,7 @@
 (define (parse path) 
     (set! program (file->string path))
     (set! program-pos 0)
-        (from-failure "Accept" (parse-program))
+    (from-failure "Accept" (parse-program))
 )
 
 ; Note that `program-ends-correctly` ensures no text comes after the '$$' end of program value.
