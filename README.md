@@ -1,5 +1,5 @@
 # CS-441
-This is my parser written in Racket for the supplied grammar.
+This is my parser written in Racket for the supplied grammar. I did not use any LLMs while writing the parser, so I don't have a file of prompts to turn in.
 
 My references used while writing this parser:
 
