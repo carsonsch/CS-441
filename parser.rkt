@@ -10,7 +10,7 @@
 (define (parse path) 
     (set! program (file->string path))
     (set! program-pos 0)
-    (from-failure "Accept" (parse-program))
+        (from-failure "Accept" (parse-program))
 )
 
 ; Note that `program-ends-correctly` ensures no text comes after the '$$' end of program value.
@@ -45,7 +45,7 @@
 (define (parse-line)
     (displayln "parse-line")
 
-    (do
+        (do
         [parse-label]
         [parse-stmt]
         [parse-linetail]
@@ -63,8 +63,9 @@
             (define label-lst (regexp-match "^[\n\r\t ]*([A-Za-z][A-Za-z0-9]*):" program program-pos))
             (define label (string-downcase (second label-lst))) ; Lowercase the label, we want to match even if the case is off
             (displayln (~a "This is the label: " label))
+            (match label-regexp)
             (if (eqv? (member label disallowed-labels) #f)
-                (match label-regexp) ; Label doesn't match reserved keywords, we're good
+                (success #t) ; Label doesn't match reserved keywords, we're good
                 (syntax-error-failure (~a "Label '" label "' is a reserved keyword")) ; Matched reserved keyword
             )
         ]
@@ -77,7 +78,16 @@
 ; containing the first token of every statement type
 (define (parse-linetail)
     (displayln "parse-linetail")
-    (define stmt-tokens '("if" "while" "read" "write" "goto" "gosub" "return[\r\t\n ]*;" "break[\r\t\n ]*;" "end[\r\t\n ]*;" "[A-Za-z][A-Za-z0-9]*[\r\t\n ]*="))
+    (define stmt-tokens '("if[\r\t\n ]*\\("
+                          "while[\r\t\n ]*\\("
+                          "read "
+                          "write "
+                          "goto "
+                          "gosub "
+                          "return[\r\t\n ]*;"
+                          "break[\r\t\n ]*;"
+                          "end[\r\t\n ]*;"
+                          "[A-Za-z][A-Za-z0-9]*[\r\t\n ]*="))
 
     (cond
         [(ormap does-match? stmt-tokens) ; If true, we have another statement coming up
